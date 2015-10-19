@@ -17,14 +17,19 @@
  */
     public function handle($context)
     {
-        if (($name = $context->postpar('name', '')) != '')
+        if ( ($name = $context->postpar('name', '')) != '' &&
+             ($description = $context->postpar('description', '')) != ''
+           )
         { # there is a post
             $u = R::dispense('publicationtype');
-            $u->typename = 'something';
+            $u->name = $name;
+            $u->description = $description;
             R::store($u);
+            $context->local()->addval('types', R::find('publicationtype'));
             return 'publicationtype.twig';
         }
-        $types = R::loadAll('publicationtype');
+        $context->local()->addval('types', R::find('publicationtype'));
+
         return 'publicationtype.twig';
     }
   }

@@ -12,13 +12,25 @@
     class Model_PublicationType extends RedBean_SimpleModel
     {
 /**
- * Return rolenam object
+ * Return name object
  *
  * @return object
  */
-        public function typename()
+        public function name()
         {
-	    return $this->bean->typename;
+	          return $this->bean->name;
         }
+
+/**
+ * Return description object
+ *
+ * @return object
+ */
+
+        public function description()
+        {
+            return $this->bean->description;
+        }
+
     }
 ?>
