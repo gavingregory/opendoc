@@ -17,13 +17,9 @@
  */
     public function handle($context)
     {
-      if (($email = $context->postpar('email', '')) != '')
-      { # there is a post
-        $user = $context->user();
-        $user->email = $email;
-        R::store($user);
-        $context->local()->addval('done', TRUE);
-      }
+      $u = R::dispense('publicationtype');
+      $u->typename = 'something';
+      R::store($u);
       return 'publicationtype.twig';
     }
   }
