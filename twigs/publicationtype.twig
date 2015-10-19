@@ -10,7 +10,10 @@
 {% endblock pageheader %}
 
 {% block main %}
-  Publication Types
+    Publication Types
+    {% for item in types %}
+        <p>{{item.name}}</p>
+    {% endfor %}
 {% endblock main %}
 
 {% block pagefooter %}

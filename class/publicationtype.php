@@ -17,10 +17,15 @@
  */
     public function handle($context)
     {
-      $u = R::dispense('publicationtype');
-      $u->typename = 'something';
-      R::store($u);
-      return 'publicationtype.twig';
+        if (($name = $context->postpar('name', '')) != '')
+        { # there is a post
+            $u = R::dispense('publicationtype');
+            $u->typename = 'something';
+            R::store($u);
+            return 'publicationtype.twig';
+        }
+        $types = R::loadAll('publicationtype');
+        return 'publicationtype.twig';
     }
   }
 ?>
