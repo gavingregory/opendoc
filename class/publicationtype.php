@@ -43,7 +43,7 @@
 
     public function handleindex($context)
     {
-        $context->local()->addval('types', R::find('publicationtype'));
+        $context->local()->addval('type', R::find('publicationtype'));
         return 'publicationtype.index.twig';
     }
 
