@@ -43,13 +43,13 @@
 
     public function handleindex($context)
     {
-        $context->local()->addval('type', R::find('publicationtype'));
+        $context->local()->addval('types', R::find('publicationtype'));
         return 'publicationtype.index.twig';
     }
 
     public function handleview($context, $id)
     {
-        $context->local()->addval('type', R::load('publicationtype', $id));
+        $context->local()->addval('type', R::load('publicationtype', intval($id)));
         return 'publicationtype.view.twig';
     }
 
@@ -63,23 +63,46 @@
             $u->name = $name;
             $u->description = $description;
             R::store($u);
-            $context->local()->addval('types', R::find('publicationtype'));
+            $this->redirect('/publicationtype');
+        }
+        else
+        {
             return 'publicationtype.create.twig';
         }
     }
 
     public function handledelete($context, $id)
     {
-        $context->local()->addval('type', R::load('publicationtype', intval($id)));
+        $bean = R::load('publicationtype', intval($id));
+        $context->local()->addval('type', $bean);
+        if ($_SERVER['REQUEST_METHOD']  == 'POST')
+        {
+            R::trash($bean);
+            $this->redirect('/publicationtype');
+        }
+        else
+        {
+            echo('hmm...');
+        }
         return 'publicationtype.delete.twig';
     }
 
     public function handleupdate($context, $id)
     {
-        //$bean = R::findOne('publicationtype', 'id = ?', [$id]);
-        //$context->local()->addval('type', $bean));
-        $context->local()->addval('type', R::load('publicationtype', $id));
+        $bean = R::load('publicationtype', $id);
+        $context->local()->addval('type', $bean);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            // update values
+        }
+        
         return 'publicationtype.update.twig';
+    }
+
+    public function redirect($url)
+    {
+        header('Location: ' . $url, true, 302);
+        return 0;
     }
 
     public function getaction($rest)

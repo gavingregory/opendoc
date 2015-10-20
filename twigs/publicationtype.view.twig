@@ -13,20 +13,10 @@
     <section class="row">
     <div class="col-md-offset-2 col-md-10">
         <h2>List Types</h2>
-        <p>id: {{ type.id }}</p>
-        <p>id: {{ type.name }}</p>
-        <p>id: {{ type.description }}</p>
+        <p>id: {{ type['id'] }}</p>
+        <p>name: {{ type['name'] }}</p>
+        <p>description: {{ type.description }}</p>
     </div>
-    </section>
-    <section class="row">
-        <div class="col-md-offset-2 col-md-10">
-            <h2>Add a new Type</h2>
-            <form action="#" method="post">
-                {{ f.text({label: 'Publication Type', name: 'name', ph: 'Please enter a Publication Type Name', required: 1 }) }}
-                {{ f.text({label: 'Description', name: 'description', ph: 'Please enter a Description', required: 1 }) }}
-                <button type="submit" class="btn btn-primary btn-lg">Create</button>
-            </form>
-        </div>
     </section>
 {% endblock main %}
 
