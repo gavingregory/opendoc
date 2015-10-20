@@ -17,23 +17,44 @@
  */
     public function handle($context)
     {
-        $action = getaction($rest);
+        $action = $this->getaction($context->rest());
         switch ($action['route'])
         {
         case 'index':
-        $this->handleindex($context);
+        return $this->handleindex($context);
         break;
         case 'view':
-        $this->handleview($context, $action['parameter']);
+        return $this->handleview($context, $action['parameter']);
         break;
         case 'update':
-        $this->handleupdate($context, $action['parameter']);
+        return $this->handleupdate($context, $action['parameter']);
         break;
         case 'delete':
-        $this->handledelete($context, $action['parameter']);
+        return $this->handledelete($context, $action['parameter']);
+        break;
+        case 'create':
+        return $this->handlecreate($context);
+        break;
+        default:
+        throw new Exception('unhandled route.');
         break;
         }
+    }
 
+    public function handleindex($context)
+    {
+        $context->local()->addval('types', R::find('publicationtype'));
+        return 'publicationtype.index.twig';
+    }
+
+    public function handleview($context, $id)
+    {
+        $context->local()->addval('type', R::load('publicationtype', $id));
+        return 'publicationtype.view.twig';
+    }
+
+    public function handlecreate($context)
+    {
         if ( ($name = $context->postpar('name', '')) != '' &&
              ($description = $context->postpar('description', '')) != ''
            )
@@ -43,45 +64,34 @@
             $u->description = $description;
             R::store($u);
             $context->local()->addval('types', R::find('publicationtype'));
-            return 'publicationtype.twig';
+            return 'publicationtype.create.twig';
         }
-        $context->local()->addval('types', R::find('publicationtype'));
-
-        return 'publicationtype.twig';
-    }
-
-    public function handleview($context, $id)
-    {
-        echo('view id: '.$id);
-    }
-
-    public function handlecreate($context)
-    {
-        echo('Create!');
-
     }
 
     public function handledelete($context, $id)
     {
-        echo('delete id: '.$id);
-
+        $context->local()->addval('type', R::load('publicationtype', intval($id)));
+        return 'publicationtype.delete.twig';
     }
 
     public function handleupdate($context, $id)
     {
-        echo('update id: '.$id);
+        //$bean = R::findOne('publicationtype', 'id = ?', [$id]);
+        //$context->local()->addval('type', $bean));
+        $context->local()->addval('type', R::load('publicationtype', $id));
+        return 'publicationtype.update.twig';
     }
 
     public function getaction($rest)
     {
-        if (!is_array($rest) || !is_set($rest[0]))
+        if (!is_array($rest) || !isset($rest[0]))
         {
             throw new Exception('getaction() function requires an array.');
         }
         $ret = Array();
         if (is_numeric($rest[0]))
         {
-            if (is_set($rest[1]))
+            if (isset($rest[1]))
             {
                 $ret['route'] = $rest[1];
                 $ret['parameter'] = $rest[0];
@@ -92,7 +102,7 @@
                 $ret['parameter'] = $rest[0];
             }
         }
-        elseif ($rest[0] = '')
+        elseif ($rest[0] == '')
         {
             $ret['route'] = 'index';
         }
