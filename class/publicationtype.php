@@ -58,13 +58,13 @@
     public function handlecreate($context)
     {
         echo('Create!');
-    
+
     }
 
     public function handledelete($context, $id)
     {
         echo('delete id: '.$id);
-    
+
     }
 
     public function handleupdate($context, $id)
@@ -79,9 +79,9 @@
             throw new Exception('getaction() function requires an array.');
         }
         $ret = Array();
-        if (is_numeric($rest[0])
+        if (is_numeric($rest[0]))
         {
-            if (is_set($rest[1])
+            if (is_set($rest[1]))
             {
                 $ret['route'] = $rest[1];
                 $ret['parameter'] = $rest[0];
