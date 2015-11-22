@@ -1,12 +1,12 @@
 <?php
 /**
- * A class that contains code for the PublicationType class
+ * A class that contains code for the Publication class
  *
  * @author Gavin Gregory <g.i.gregory@ncl.ac.uk>
  * @copyright 2015 Newcastle University
  *
  */
-  class PublicationType extends Siteaction
+  class Publication extends Siteaction
   {
 /**
  * Handle profile operations /publicationtype/xxxx
@@ -43,48 +43,64 @@
 
     public function handleindex($context)
     {
-        $context->local()->addval('types', R::find('publicationtype'));
-        return 'publicationtype.index.twig';
+        $context->local()->addval('publications', R::find('publication'));
+        return 'publication/index.twig';
     }
 
     public function handleview($context, $id)
     {
-        $context->local()->addval('type', R::load('publicationtype', intval($id)));
-        return 'publicationtype.view.twig';
+        $context->local()->addval('publication', R::load('publication', intval($id)));
+        return 'publication/view.twig';
     }
 
     public function handlecreate($context)
     {
-        if ( ($name = $context->postpar('name', '')) != '' &&
-             ($description = $context->postpar('description', '')) != ''
-           )
-        { # there is a post
-            $u = R::dispense('publicationtype');
-            $u->name = $name;
-            $u->description = $description;
-            R::store($u);
-            $this->redirect('/publicationtype');
+
+        if ($_SERVER['REQUEST_METHOD']  == 'POST')
+        {
+            if ( ($title = $context->postpar('title', '')) != '' &&
+               ($description = $context->postpar('description', '')) != '' &&
+               ($licence = $context->postpar('licence', '')) != '' &&
+               ($typeid = $context->postpar('typeid', '')) != ''
+             )
+            {
+                $u = R::dispense('publication');
+                $u->title = $title;
+                $u->description = $description;
+                $u->licence = $licence;
+                $u->typeid = $typeid;
+                R::store($u);
+                $this ->redirect('/publication');
+            }
+            else
+            {
+                $context->local()->addval('types', R::find('publicationtype'));
+                $context->local()->addval('message', 'Something has gone wrong');
+                return 'publication/create.twig';
+            }
         }
         else
         {
-            return 'publicationtype.create.twig';
+            $context->local()->addval('types', R::find('publicationtype'));
+            return 'publication/create.twig';
         }
+
     }
 
     public function handledelete($context, $id)
     {
-        $bean = R::load('publicationtype', intval($id));
+        $bean = R::load('publication', intval($id));
         $context->local()->addval('type', $bean);
         if ($_SERVER['REQUEST_METHOD']  == 'POST')
         {
             R::trash($bean);
-            $this->redirect('/publicationtype');
+            $this->redirect('/publication');
         }
         else
         {
             echo('hmm...');
         }
-        return 'publicationtype.delete.twig';
+        return 'publication/delete.twig';
     }
 
     public function handleupdate($context, $id)
@@ -96,7 +112,7 @@
             // update values
         }
 
-        return 'publicationtype.update.twig';
+        return 'publicationtype/update.twig';
     }
 
     public function redirect($url)

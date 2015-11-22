@@ -1,0 +1,46 @@
+{% extends 'page.twig' %}
+
+{% import 'form.twig' as f %}
+
+{% block title %}
+  Publication Types
+{% endblock title %}
+
+{% block pageheader %}
+{% endblock pageheader %}
+
+{% block main %}
+    <section class="row">
+        <div class="col-md-2">
+        <h3>Options</h3>
+            <a href="/publication/create">Create</a>
+        </div>
+
+        <div class="col-md-10">
+            <h2>All Publications</h2>
+            <table class="table table-striped">
+                <thead>
+                    <th>id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Author(s)</th>
+                    <th>&nbsp;</th>
+                </thead>
+                <tbody>
+                    {% for p in publications %}
+                        <tr>
+                            <td><a href="/publication/{{ p.id }}">{{ p.id }}</a></td>
+                            <td>{{ p.title }}</td>
+                            <td>{{ p.description }}</td>
+                            <td>{{ p.authors }}</td>
+                            <td><a href="/publication/{{ p.id }}/delete">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock main %}
+
+{% block pagefooter %}
+{% endblock pagefooter %}

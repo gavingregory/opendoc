@@ -1,0 +1,87 @@
+{% extends 'page.twig' %}
+
+{% import 'form.twig' as f %}
+
+{% block title %}
+  Publication Types
+{% endblock title %}
+
+{% block pageheader %}
+{% endblock pageheader %}
+
+{% block main %}
+    <section class="row">
+    {{message}}
+    <div class="col-md-offset-2 col-md-10">
+        <h2>Add a new Publication</h2>
+        <form action="#" method="post">
+            {{ f.text({label: 'Title', name: 'title', ph: 'Please enter a Publication Title', required: 1 }) }}
+
+            <div class="form-group">
+                <label for="typeid">Type</label>
+                <select name="typeid" id="typeid" class="form-control">
+                {% for item in types %}
+                    <option value="{{item.id}}" {%if loop.index0==0 %}selected{%endif%} >{{item.name}}</option>
+                {% endfor %}
+                </select>
+            </div>
+
+            {{ f.text({label: 'Description', name: 'description', ph: 'Please enter a Description', required: 1 }) }}
+            {{ f.text({label: 'Licence', name: 'licence', ph: 'Please enter licence information', required: 1 }) }}
+            {{ f.text({label: 'Authors', name: 'authors', ph: 'Please enter a comma separated list of authors', required: 1 }) }}
+
+
+            <!-- # Document specific form elements -->
+            {% include 'publication/_formdocument.twig' %}
+            <!-- # Data specific form elements -->
+            {% include 'publication/_formdata.twig' %}
+            <!-- # Source code specific form elements -->
+            {% include 'publication/_formsourcecode.twig' %}
+            <!-- # Apps specific form elements -->
+            {% include 'publication/_formapps.twig' %}
+
+
+
+            <button type="submit" class="btn btn-primary btn-lg">Create</button>
+
+        </form>
+    </div>
+    </section>
+{% endblock main %}
+
+{% block onload %}
+  // initialise form elements (hide them!)
+  $('#formdocument').hide();
+  $('#formapps').hide();
+  $('#formsourcecode').hide();
+  $('#formdata').hide();
+
+  // select which form elements to show
+  $('#typeid').change(function () {
+    var val = $('#typeid').val();
+    $('#formdocument').hide();
+    $('#formapps').hide();
+    $('#formsourcecode').hide();
+    $('#formdata').hide();
+    switch (val)
+    {
+      case '12':
+        $('#formdocument').show();
+        break;
+      case '13':
+        $('#formdata').show();
+        break;
+      case '14':
+        $('#formsourcecode').show();
+        break;
+      case '15':
+        $('#formapps').show();
+        break;
+    }
+  })
+
+
+{% endblock onload %}
+
+{% block pagefooter %}
+{% endblock pagefooter %}
