@@ -124,14 +124,13 @@
 
     public function handleupdate($context, $id)
     {
-        $bean = R::load('publicationtype', $id);
-        $context->local()->addval('type', $bean);
         if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             // update values
         }
 
-        return 'publicationtype/update.twig';
+        $context->local()->addval('publication', R::load('publication', intval($id)));
+        return 'publication/update.twig';
     }
 
     public function redirect($url)
