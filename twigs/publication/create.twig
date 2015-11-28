@@ -11,8 +11,13 @@
 
 {% block main %}
     <section class="row">
-    {{message}}
-    <div class="col-md-offset-2 col-md-10">
+        <div class="col-md-2">
+        <h3>Options</h3>
+            <a href="/publication/"><i class="fa fa-long-arrow-left"></i>&nbsp;Back</a><br />
+            {{message}}
+        </div>
+
+        <div class="col-md-10">
         <h2>Add a new Publication</h2>
         <form action="#" method="post">
             {{ f.text({label: 'Name', name: 'name', ph: 'Please enter a publication title/name', required: 1 }) }}

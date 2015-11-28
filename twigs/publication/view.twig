@@ -13,13 +13,23 @@
     <section class="row">
     <div class="col-md-2">
     <h3>Options</h3>
+        <a href="/publication/"><i class="fa fa-long-arrow-left"></i>&nbsp;Back</a><br />
         <a href="/publication/{{publication.id}}/update"><i class="fa fa-edit"></i>&nbsp;Edit</a>
     </div>
     <div class="col-md-10">
-        <h2>{{ publication.name }}</h2>
+        <h2>
+            <i class="fa fa-{{publication.isdocument ? 'file-word-o'}}{{publication.isapp ? 'android'}}{{publication.isdata ? 'file'}}{{publication.issourcecode ? 'file-code-o'}} fa-3x"></i>
+            {{ publication.name }}
+        </h2>
         <p>id: {{ publication.id }}</p>
         <p>name: {{ publication.name }}</p>
         <p>description: {{ publication.description }}</p>
+        <p>
+        </p>
+        <p>is document?: {{ publication.isdocument }}</p>
+        <p>is app?: {{ publication.isapp }}</p>
+        <p>is data?: {{ publication.isdata }}</p>
+        <p>is source code?: {{ publication.issourcecode }}</p>
     </div>
     </section>
 {% endblock main %}

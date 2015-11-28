@@ -38,16 +38,16 @@
         <label for="type">Type</label>
         <div class="btn-group">
             <label class="btn btn-default">
-                <input type="radio" id="radio-document" name="type" value="isdocument" />&nbsp;<i class="fa fa-file-word-o"></i>&nbsp;document
+                <input type="radio" id="radio-document" name="type" value="isdocument" {{publication.isdocument ? 'checked'}} />&nbsp;<i class="fa fa-file-word-o"></i>&nbsp;document
             </label>
             <label class="btn btn-default">
-                <input type="radio" id="radio-app" name="type" value="isapp" />&nbsp;<i class="fa fa-android"></i>&nbsp;application
+                <input type="radio" id="radio-app" name="type" value="isapp" {{publication.isapp ? 'checked'}} />&nbsp;<i class="fa fa-android"></i>&nbsp;application
             </label>
             <label class="btn btn-default">
-                <input type="radio" id="radio-src" name="type" value="isdata" />&nbsp;<i class="fa fa-file"></i>&nbsp;raw data
+                <input type="radio" id="radio-data" name="type" value="isdata" {{publication.isdata ? 'checked'}} />&nbsp;<i class="fa fa-file"></i>&nbsp;raw data
             </label>
             <label class="btn btn-default">
-                <input type="radio" id="radio-data" name="type" value="issourcecode" />&nbsp;<i class="fa fa-file-code-o"></i>&nbsp;source code
+                <input type="radio" id="radio-sourcecode" name="type" value="issourcecode" {{publication.issourcecode ? 'checked'}} />&nbsp;<i class="fa fa-file-code-o"></i>&nbsp;source code
             </label>
         </div>
         <div class="form-group">
