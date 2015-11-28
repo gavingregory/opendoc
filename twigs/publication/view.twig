@@ -1,0 +1,24 @@
+{% extends 'page.twig' %}
+
+{% import 'form.twig' as f %}
+
+{% block title %}
+  Publication
+{% endblock title %}
+
+{% block pageheader %}
+{% endblock pageheader %}
+
+{% block main %}
+    <section class="row">
+    <div class="col-md-offset-2 col-md-10">
+        <h2>{{ publication.name }}</h2>
+        <p>id: {{ publication.id }}</p>
+        <p>name: {{ publication.name }}</p>
+        <p>description: {{ publication.description }}</p>
+    </div>
+    </section>
+{% endblock main %}
+
+{% block pagefooter %}
+{% endblock pagefooter %}

@@ -21,7 +21,7 @@
             <table class="table table-striped">
                 <thead>
                     <th>id</th>
-                    <th>Title</th>
+                    <th>Name</th>
                     <th>Description</th>
                     <th>Author(s)</th>
                     <th>&nbsp;</th>
@@ -30,10 +30,14 @@
                     {% for p in publications %}
                         <tr>
                             <td><a href="/publication/{{ p.id }}">{{ p.id }}</a></td>
-                            <td>{{ p.title }}</td>
+                            <td>{{ p.name }}</td>
                             <td>{{ p.description }}</td>
                             <td>{{ p.authors }}</td>
-                            <td><a href="/publication/{{ p.id }}/delete">Delete</a></td>
+                            <td>
+                                <form action="/publication/{{p.id}}/delete" method="POST">
+                                    <button type="submit" class="btn btn-primary btn-lg">Delete</button>
+                                </form>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

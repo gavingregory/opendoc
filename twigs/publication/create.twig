@@ -3,7 +3,7 @@
 {% import 'form.twig' as f %}
 
 {% block title %}
-  Publication Types
+  Publications | Create
 {% endblock title %}
 
 {% block pageheader %}
@@ -15,32 +15,27 @@
     <div class="col-md-offset-2 col-md-10">
         <h2>Add a new Publication</h2>
         <form action="#" method="post">
-            {{ f.text({label: 'Title', name: 'title', ph: 'Please enter a Publication Title', required: 1 }) }}
-
-            <div class="form-group">
-                <label for="typeid">Type</label>
-                <select name="typeid" id="typeid" class="form-control">
-                {% for item in types %}
-                    <option value="{{item.id}}" {%if loop.index0==0 %}selected{%endif%} >{{item.name}}</option>
-                {% endfor %}
-                </select>
-            </div>
-
-            {{ f.text({label: 'Description', name: 'description', ph: 'Please enter a Description', required: 1 }) }}
+            {{ f.text({label: 'Name', name: 'name', ph: 'Please enter a publication title/name', required: 1 }) }}
+            {{ f.text({label: 'Description', name: 'description', ph: 'Please enter a description', required: 1 }) }}
             {{ f.text({label: 'Licence', name: 'licence', ph: 'Please enter licence information', required: 1 }) }}
             {{ f.text({label: 'Authors', name: 'authors', ph: 'Please enter a comma separated list of authors', required: 1 }) }}
 
-
-            <!-- # Document specific form elements -->
-            {% include 'publication/_formdocument.twig' %}
-            <!-- # Data specific form elements -->
-            {% include 'publication/_formdata.twig' %}
-            <!-- # Source code specific form elements -->
-            {% include 'publication/_formsourcecode.twig' %}
-            <!-- # Apps specific form elements -->
-            {% include 'publication/_formapps.twig' %}
-
-
+            <label for="type">Type</label>
+            <div class="btn-group">
+                <label class="btn btn-default">
+                    <input type="radio" id="radio-document" name="type" value="isdocument   " /> document
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" id="radio-app" name="type" value="isapp" /> application
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" id="radio-src" name="type" value="isdata" /> raw data
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" id="radio-data" name="type" value="issourcecode" /> source code
+                </label>
+            </div>
+            {{ f.text({label: 'Data', name: 'data', ph: 'Please enter the data', required: 1 })}}
 
             <button type="submit" class="btn btn-primary btn-lg">Create</button>
 
@@ -57,30 +52,18 @@
   $('#formdata').hide();
 
   // select which form elements to show
-  $('#typeid').change(function () {
-    var val = $('#typeid').val();
-    $('#formdocument').hide();
-    $('#formapps').hide();
-    $('#formsourcecode').hide();
-    $('#formdata').hide();
-    switch (val)
-    {
-      case '12':
-        $('#formdocument').show();
-        break;
-      case '13':
-        $('#formdata').show();
-        break;
-      case '14':
-        $('#formsourcecode').show();
-        break;
-      case '15':
-        $('#formapps').show();
-        break;
-    }
-  })
-
-
+  $('#hasdata').change(function () {
+    $("#formdata").toggle(this.checked);
+  });Publication Types
+  $('#hasdocument').change(function () {
+    $("#formdocument").toggle(this.checked);
+  });
+  $('#hasapp').change(function () {
+    $('#formapps').toggle(this.checked);
+  });
+  $('#hassourcecode').change(function () {
+    $('#formsourcecode').toggle(this.checked);
+  });
 {% endblock onload %}
 
 {% block pagefooter %}
