@@ -11,7 +11,11 @@
 
 {% block main %}
     <section class="row">
-    <div class="col-md-offset-2 col-md-10">
+    <div class="col-md-2">
+    <h3>Options</h3>
+        <a href="/publication/{{publication.id}}/edit"><i class="fa fa-edit"></i>&nbsp;Edit</a>
+    </div>
+    <div class="col-md-10">
         <h2>{{ publication.name }}</h2>
         <p>id: {{ publication.id }}</p>
         <p>name: {{ publication.name }}</p>

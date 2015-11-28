@@ -23,16 +23,16 @@
             <label for="type">Type</label>
             <div class="btn-group">
                 <label class="btn btn-default">
-                    <input type="radio" id="radio-document" name="type" value="isdocument   " /> document
+                    <input type="radio" id="radio-document" name="type" value="isdocument   " />&nbsp;<i class="fa fa-file-word-o"></i>&nbsp;document
                 </label>
                 <label class="btn btn-default">
-                    <input type="radio" id="radio-app" name="type" value="isapp" /> application
+                    <input type="radio" id="radio-app" name="type" value="isapp" />&nbsp;<i class="fa fa-android"></i>&nbsp;application
                 </label>
                 <label class="btn btn-default">
-                    <input type="radio" id="radio-src" name="type" value="isdata" /> raw data
+                    <input type="radio" id="radio-src" name="type" value="isdata" />&nbsp;<i class="fa fa-file"></i>&nbsp;raw data
                 </label>
                 <label class="btn btn-default">
-                    <input type="radio" id="radio-data" name="type" value="issourcecode" /> source code
+                    <input type="radio" id="radio-data" name="type" value="issourcecode" />&nbsp;<i class="fa fa-file-code-o"></i>&nbsp;source code
                 </label>
             </div>
             {{ f.text({label: 'Data', name: 'data', ph: 'Please enter the data', required: 1 })}}
