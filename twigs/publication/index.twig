@@ -24,6 +24,10 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Author(s)</th>
+                    <th>Document</th>
+                    <th>Data</th>
+                    <th>App</th>
+                    <th>Source Code</th>
                     <th>&nbsp;</th>
                 </thead>
                 <tbody>
@@ -33,6 +37,10 @@
                             <td>{{ p.name }}</td>
                             <td>{{ p.description }}</td>
                             <td>{{ p.authors }}</td>
+                            <td>{{ p.isdocument }}</td>
+                            <td>{{ p.isdata }}</td>
+                            <td>{{ p.isapp }}</td>
+                            <td>{{ p.issourcecode }}</td>
                             <td>
                                 <form action="/publication/{{p.id}}/delete" method="POST">
                                     <button type="submit" class="btn btn-primary btn-lg">Delete</button>
