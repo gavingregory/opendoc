@@ -97,7 +97,7 @@
             }
             else
             {
-                $context->local()->addval('message', 'Something has gone wrong');
+                $context->local()->addval('message', 'You have not posted all of the required values.');
                 return 'publication/create.twig';
             }
         }
@@ -118,7 +118,8 @@
         }
         else
         {
-            $this->redirect('/error');
+            $context->local()->addval('publication', $bean);
+            return 'publication/delete.twig';
         }
     }
 
@@ -126,7 +127,49 @@
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
-            // update values
+            if ( ($name = $context->postpar('name', '')) != '' &&
+               ($description = $context->postpar('description', '')) != '' &&
+               ($licence = $context->postpar('licence', '')) != '' &&
+               ($authors = $context->postpar('authors', '')) != '' &&
+               ($type = $context->postpar('type', '')) != '' &&
+               ($data = $context->postpar('data', '')) != ''
+             )
+            {
+                $u = R::load('publication', intval($id));
+                $u->name = $name;
+                $u->description = $description;
+                $u->licence = $licence;
+                $u->isdocument = false;
+                $u->isapp = false;
+                $u->isdata = false;
+                $u->issourcecode = false;
+                $u->data = $data;
+
+                switch ($type)
+                {
+                case 'isdocument':
+                $u->isdocument = true;
+                break;
+                case 'isapp':
+                $u->isapp = true;
+                break;
+                case 'isdata':
+                $u->isdata = true;
+                break;
+                case 'issourcecode':
+                $u->issourcecode = true;
+                break;
+                }
+
+                R::store($u);
+                $this ->redirect('/publication');
+            }
+            else
+            {
+                $context->local()->addval('publication', R::load('publication', intval($id)));
+                $context->local()->addval('message', 'You have not posted all of the required values.');
+                return 'publication/update.twig';
+            }
         }
 
         $context->local()->addval('publication', R::load('publication', intval($id)));

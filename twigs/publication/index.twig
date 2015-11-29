@@ -13,6 +13,7 @@
     <section class="row">
         <div class="col-md-2">
         <h3>Options</h3>
+            <a href="/publication/"><i class="fa fa-list"></i>&nbsp;List</a><br />
             <a href="/publication/create"><i class="fa fa-plus-square-o"></i>&nbsp;Create</a>
         </div>
 
@@ -24,10 +25,8 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Author(s)</th>
-                    <th>Document</th>
-                    <th>Data</th>
-                    <th>App</th>
-                    <th>Source Code</th>
+                    <th>Licence</th>
+                    <th>Type</th>
                     <th>&nbsp;</th>
                 </thead>
                 <tbody>
@@ -37,14 +36,17 @@
                             <td>{{ p.name }}</td>
                             <td>{{ p.description }}</td>
                             <td>{{ p.authors }}</td>
-                            <td>{{ p.isdocument }}</td>
-                            <td>{{ p.isdata }}</td>
-                            <td>{{ p.isapp }}</td>
-                            <td>{{ p.issourcecode }}</td>
+                            <td>{{ p.licence }}</td>
                             <td>
-                                <form action="/publication/{{p.id}}/delete" method="POST">
-                                    <button type="submit" class="btn btn-primary btn-lg">Delete</button>
-                                </form>
+                                {{ p.issourcecode ? 'Source Code' }}
+                                {{ p.isapp ? 'Application' }}
+                                {{ p.isdata ? 'Data' }}
+                                {{ p.isdocument ? 'Document' }}
+                            </td>
+                            <td>
+                                <a href="/publication/{{p.id}}/delete" class="btn btn-warning">Delete</a>
+                                <a href="/publication/{{p.id}}" class="btn btn-default">View</a>
+                                <a href="/publication/{{p.id}}/update" class="btn btn-info">Edit</a>
                             </td>
                         </tr>
                     {% endfor %}
