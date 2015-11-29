@@ -70,6 +70,7 @@
                 $u->name = $name;
                 $u->description = $description;
                 $u->licence = $licence;
+                $u->authors = $authors;
                 $u->isdocument = false;
                 $u->isapp = false;
                 $u->isdata = false;

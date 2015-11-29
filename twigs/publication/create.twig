@@ -9,6 +9,14 @@
 {% block pageheader %}
 {% endblock pageheader %}
 
+{% block links %}
+    <link rel="stylesheet" href="{{assets}}/bower_components/tagmanager/tagmanager.css"/>
+{% endblock links %}
+
+{% block scripts %}
+    <script src="{{assets}}/bower_components/tagmanager/tagmanager.js"></script>
+{% endblock scripts %}
+
 {% block main %}
     <section class="row">
         <div class="col-md-2">
@@ -24,12 +32,14 @@
             {{ f.text({label: 'Name', name: 'name', ph: 'Please enter a publication title/name', required: 1 }) }}
             {{ f.text({label: 'Description', name: 'description', ph: 'Please enter a description', required: 1 }) }}
             {{ f.text({label: 'Licence', name: 'licence', ph: 'Please enter licence information', required: 1 }) }}
-            {{ f.text({label: 'Authors', name: 'authors', ph: 'Please enter a comma separated list of authors', required: 1 }) }}
-
+            <div class="form-group">
+                <label for="authors">Authors</label>
+                <input class="form-control" type="text" name="_authors" id="_authors" placeholder="Please add authors. Press enter to to add each author." />
+            </div>
             <label for="type">Type</label>
             <div class="btn-group">
                 <label class="btn btn-default">
-                    <input type="radio" id="radio-document" name="type" value="isdocument   " />&nbsp;<i class="fa fa-file-word-o"></i>&nbsp;document
+                    <input type="radio" id="radio-document" name="type" value="isdocument" />&nbsp;<i class="fa fa-file-word-o"></i>&nbsp;document
                 </label>
                 <label class="btn btn-default">
                     <input type="radio" id="radio-app" name="type" value="isapp" />&nbsp;<i class="fa fa-android"></i>&nbsp;application
@@ -42,8 +52,7 @@
                 </label>
             </div>
             {{ f.text({label: 'Data', name: 'data', ph: 'Please enter the data', required: 1 })}}
-
-            <button type="submit" class="btn btn-primary btn-lg">Create</button>
+            <button type="submit" id="submit" class="btn btn-primary btn-lg">Create</button>
 
         </form>
     </div>
@@ -51,25 +60,20 @@
 {% endblock main %}
 
 {% block onload %}
-  // initialise form elements (hide them!)
-  $('#formdocument').hide();
-  $('#formapps').hide();
-  $('#formsourcecode').hide();
-  $('#formdata').hide();
 
-  // select which form elements to show
-  $('#hasdata').change(function () {
-    $("#formdata").toggle(this.checked);
-  });Publication Types
-  $('#hasdocument').change(function () {
-    $("#formdocument").toggle(this.checked);
-  });
-  $('#hasapp').change(function () {
-    $('#formapps').toggle(this.checked);
-  });
-  $('#hassourcecode').change(function () {
-    $('#formsourcecode').toggle(this.checked);
-  });
+    // validate the authors on submit
+    $('form').submit(function (event) {
+        if($.trim($('input[name=authors]').val()) == '') {
+            event.preventDefault();
+            alert('authors required!');
+        }
+    });
+
+    // enable tagsmanager on the _authors input
+    $('#_authors').tagsManager({
+        hiddenTagListName : 'authors',
+        hiddenTagListId: 'authors',
+    });
 {% endblock onload %}
 
 {% block pagefooter %}

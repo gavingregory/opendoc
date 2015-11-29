@@ -38,9 +38,9 @@
  *@return object
  */
 
-        public function authorid()
+        public function authors()
         {
-            return $this->bean->authorid;
+            return $this->bean->authors;
         }
 
 /**
