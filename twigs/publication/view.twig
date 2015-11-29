@@ -11,40 +11,35 @@
 
 {% block main %}
     <section class="row">
-    <div class="col-md-2">
-    <h3>Options</h3>
-        <a href="/publication/"><i class="fa fa-list"></i>&nbsp;List</a><br />
-        <a href="/publication/create"><i class="fa fa-plus-square-o"></i>&nbsp;Create</a>
-        <a href="/publication/{{publication.id}}/update"><i class="fa fa-edit"></i>&nbsp;Edit</a><br />
-        <a href="/publication/{{publication.id}}"><i class="fa fa-search"></i>&nbsp;View</a><br />
-        <a href="/publication/{{publication.id}}/delete"><i class="fa fa-remove"></i>&nbsp;Delete</a>
-    </div>
-    <div class="col-md-10">
-        <h2>
-            <i class="fa fa-{{publication.isdocument ? 'file-word-o'}}{{publication.isapp ? 'android'}}{{publication.isdata ? 'file'}}{{publication.issourcecode ? 'file-code-o'}} fa-3x"></i>
-            {{ publication.name }}
-        </h2>
-        <dl class="dl-horizontal">
-            <dt>id</dt><dd>{{ publication.id }}</dd>
-            <dt>name</dt><dd>{{ publication.name }}</dd>
-            <dt>description</dt><dd>{{ publication.description }}</dd>
-            <dt>type</dt><dd>{{ publication.isdocument }}{{ publication.isapp }}{{ publication.isdata }}{{ publication.issourcecode }}</dd>
-            <dt>author(s)</dt>
-            <dd>
-                {% set authors = publication.authors|split(',') %}
-                {% for a in authors %}
-                    <span class="label label-success">{{a}}</span>
-                {% endfor %}
-            </dd>
-            <dt>meta-tag(s)</dt>
-            <dd>
-                {% set tags = publication.tags|split(',') %}
-                {% for t in tags %}
-                    <span class="label label-default">{{t}}</span>
-                {% endfor %}
-            </dd>
-        </dl>
-    </div>
+        <div class="col-md-2">
+            {% include 'publication/_contextoptions.twig' %}
+        </div>
+        <div class="col-md-10">
+            <h2>
+                <i class="fa fa-{{publication.isdocument ? 'file-word-o'}}{{publication.isapp ? 'android'}}{{publication.isdata ? 'file'}}{{publication.issourcecode ? 'file-code-o'}} fa-3x"></i>
+                {{ publication.name }}
+            </h2>
+            <dl class="dl-horizontal">
+                <dt>id</dt><dd>{{ publication.id }}</dd>
+                <dt>name</dt><dd>{{ publication.name }}</dd>
+                <dt>description</dt><dd>{{ publication.description }}</dd>
+                <dt>type</dt><dd>{{ publication.isdocument }}{{ publication.isapp }}{{ publication.isdata }}{{ publication.issourcecode }}</dd>
+                <dt>author(s)</dt>
+                <dd>
+                    {% set authors = publication.authors|split(',') %}
+                    {% for a in authors %}
+                        <span class="label label-success">{{a}}</span>
+                    {% endfor %}
+                </dd>
+                <dt>meta-tag(s)</dt>
+                <dd>
+                    {% set tags = publication.tags|split(',') %}
+                    {% for t in tags %}
+                        <span class="label label-default">{{t}}</span>
+                    {% endfor %}
+                </dd>
+            </dl>
+        </div>
     </section>
 {% endblock main %}
 

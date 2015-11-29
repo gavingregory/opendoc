@@ -20,46 +20,42 @@
 {% block main %}
     <section class="row">
         <div class="col-md-2">
-        <h3>Options</h3>
-            <a href="/publication/"><i class="fa fa-list"></i>&nbsp;List</a><br />
-            <a href="/publication/create"><i class="fa fa-plus-square-o"></i>&nbsp;Create</a>
-            {{message}}
+            {% include 'publication/_contextoptions.twig' %}
         </div>
-
         <div class="col-md-10">
-        <h2>Add a new Publication</h2>
-        <form action="#" method="post">
-            {{ f.text({label: 'Name', name: 'name', ph: 'Please enter a publication title/name', required: 1 }) }}
-            {{ f.text({label: 'Description', name: 'description', ph: 'Please enter a description', required: 1 }) }}
-            {{ f.text({label: 'Licence', name: 'licence', ph: 'Please enter licence information', required: 1 }) }}
-            <div class="form-group">
-                <label for="authors">Authors</label>
-                <input class="form-control" type="text" name="_authors" id="_authors" placeholder="Please add authors. Press enter to to add each author." />
-            </div>
-            <div class="form-group">
-                <label for="authors">Tags</label>
-                <input class="form-control" type="text" name="_tags" id="_tags" placeholder="Please add tags that describe the content in some way. Press enter to to add each separate tag." />
-            </div>
-            <label for="type">Type</label>
-            <div class="btn-group">
-                <label class="btn btn-default">
-                    <input type="radio" id="radio-document" name="type" value="isdocument" />&nbsp;<i class="fa fa-file-word-o"></i>&nbsp;document
-                </label>
-                <label class="btn btn-default">
-                    <input type="radio" id="radio-app" name="type" value="isapp" />&nbsp;<i class="fa fa-android"></i>&nbsp;application
-                </label>
-                <label class="btn btn-default">
-                    <input type="radio" id="radio-src" name="type" value="isdata" />&nbsp;<i class="fa fa-file"></i>&nbsp;raw data
-                </label>
-                <label class="btn btn-default">
-                    <input type="radio" id="radio-data" name="type" value="issourcecode" />&nbsp;<i class="fa fa-file-code-o"></i>&nbsp;source code
-                </label>
-            </div>
-            {{ f.text({label: 'Data', name: 'data', ph: 'Please enter the data', required: 1 })}}
-            <button type="submit" id="submit" class="btn btn-primary btn-lg">Create</button>
+            <h2>Add a new Publication</h2>
+            <form action="#" method="post">
+                {{ f.text({label: 'Name', name: 'name', ph: 'Please enter a publication title/name', required: 1 }) }}
+                {{ f.text({label: 'Description', name: 'description', ph: 'Please enter a description', required: 1 }) }}
+                {{ f.text({label: 'Licence', name: 'licence', ph: 'Please enter licence information', required: 1 }) }}
+                <div class="form-group">
+                    <label for="authors">Authors</label>
+                    <input class="form-control" type="text" name="_authors" id="_authors" placeholder="Please add authors. Press enter to to add each author." />
+                </div>
+                <div class="form-group">
+                    <label for="authors">Tags</label>
+                    <input class="form-control" type="text" name="_tags" id="_tags" placeholder="Please add tags that describe the content in some way. Press enter to to add each separate tag." />
+                </div>
+                <label for="type">Type</label>
+                <div class="btn-group">
+                    <label class="btn btn-default">
+                        <input type="radio" id="radio-document" name="type" value="isdocument" />&nbsp;<i class="fa fa-file-word-o"></i>&nbsp;document
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" id="radio-app" name="type" value="isapp" />&nbsp;<i class="fa fa-android"></i>&nbsp;application
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" id="radio-src" name="type" value="isdata" />&nbsp;<i class="fa fa-file"></i>&nbsp;raw data
+                    </label>
+                    <label class="btn btn-default">
+                        <input type="radio" id="radio-data" name="type" value="issourcecode" />&nbsp;<i class="fa fa-file-code-o"></i>&nbsp;source code
+                    </label>
+                </div>
+                {{ f.text({label: 'Data', name: 'data', ph: 'Please enter the data', required: 1 })}}
+                <button type="submit" id="submit" class="btn btn-primary btn-lg">Create</button>
 
-        </form>
-    </div>
+            </form>
+        </div>
     </section>
 {% endblock main %}
 

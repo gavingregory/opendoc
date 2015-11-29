@@ -1,0 +1,29 @@
+<h3>Options</h3>
+<div>
+    <a href="/publication/"><i class="fa fa-list"></i>&nbsp;List</a>
+</div>
+<div>
+    <a href="/publication/{{publication.id}}"><i class="fa fa-search"></i>&nbsp;View</a><br />
+</div>
+{% if context.hasuser %}
+<div>
+    <a href="/publication/create"><i class="fa fa-plus-square-o"></i>&nbsp;Create</a>
+</div>
+
+<div>
+    <a href="/publication/{{publication.id}}/update"><i class="fa fa-edit"></i>&nbsp;Edit</a><br />
+</div>
+<div>
+    <a href="/publication/{{publication.id}}/delete"><i class="fa fa-remove"></i>&nbsp;Delete</a>
+</div>
+{% endif %}
+{% if (errors) %}
+<h3>Errors</h3>
+<div class="alert alert-warning">
+    <ul>
+    {% for e in errors %}
+        <li>{{e}}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}
