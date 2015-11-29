@@ -24,16 +24,26 @@
             <i class="fa fa-{{publication.isdocument ? 'file-word-o'}}{{publication.isapp ? 'android'}}{{publication.isdata ? 'file'}}{{publication.issourcecode ? 'file-code-o'}} fa-3x"></i>
             {{ publication.name }}
         </h2>
-        <p>id: {{ publication.id }}</p>
-        <p>name: {{ publication.name }}</p>
-        <p>description: {{ publication.description }}</p>
-        <p>
-        </p>
-        <p>is document?: {{ publication.isdocument }}</p>
-        <p>is app?: {{ publication.isapp }}</p>
-        <p>is data?: {{ publication.isdata }}</p>
-        <p>is source code?: {{ publication.issourcecode }}</p>
-        <p>authors: {{ publication.authors }}</p>
+        <dl class="dl-horizontal">
+            <dt>id</dt><dd>{{ publication.id }}</dd>
+            <dt>name</dt><dd>{{ publication.name }}</dd>
+            <dt>description</dt><dd>{{ publication.description }}</dd>
+            <dt>type</dt><dd>{{ publication.isdocument }}{{ publication.isapp }}{{ publication.isdata }}{{ publication.issourcecode }}</dd>
+            <dt>author(s)</dt>
+            <dd>
+                {% set authors = publication.authors|split(',') %}
+                {% for a in authors %}
+                    <span class="label label-success">{{a}}</span>
+                {% endfor %}
+            </dd>
+            <dt>meta-tag(s)</dt>
+            <dd>
+                {% set tags = publication.tags|split(',') %}
+                {% for t in tags %}
+                    <span class="label label-default">{{t}}</span>
+                {% endfor %}
+            </dd>
+        </dl>
     </div>
     </section>
 {% endblock main %}

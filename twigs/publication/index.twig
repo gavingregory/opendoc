@@ -25,6 +25,7 @@
                     <th>Name</th>
                     <th>Description</th>
                     <th>Author(s)</th>
+                    <th>Tags/Categories</th>
                     <th>Licence</th>
                     <th>Type</th>
                     <th>&nbsp;</th>
@@ -35,7 +36,18 @@
                             <td><a href="/publication/{{ p.id }}">{{ p.id }}</a></td>
                             <td>{{ p.name }}</td>
                             <td>{{ p.description }}</td>
-                            <td>{{ p.authors }}</td>
+                            <td>
+                                {% set authors = p.authors|split(',') %}
+                                {% for a in authors %}
+                                    <span class="label label-success">{{a}}</span>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% set tags = p.tags|split(',') %}
+                                {% for t in tags %}
+                                    <span class="label label-default">{{t}}</span>
+                                {% endfor %}
+                            </td>
                             <td>{{ p.licence }}</td>
                             <td>
                                 {{ p.issourcecode ? 'Source Code' }}

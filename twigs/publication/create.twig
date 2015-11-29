@@ -36,6 +36,10 @@
                 <label for="authors">Authors</label>
                 <input class="form-control" type="text" name="_authors" id="_authors" placeholder="Please add authors. Press enter to to add each author." />
             </div>
+            <div class="form-group">
+                <label for="authors">Tags</label>
+                <input class="form-control" type="text" name="_tags" id="_tags" placeholder="Please add tags that describe the content in some way. Press enter to to add each separate tag." />
+            </div>
             <label for="type">Type</label>
             <div class="btn-group">
                 <label class="btn btn-default">
@@ -61,19 +65,32 @@
 
 {% block onload %}
 
-    // validate the authors on submit
+    // validate the authors/tags on submit
+    // this is required as we can't validate the hidden field that is created
+    // by the tags manager
     $('form').submit(function (event) {
         if($.trim($('input[name=authors]').val()) == '') {
             event.preventDefault();
             alert('authors required!');
+        }
+        if($.trim($('input[name=tags]').val()) == '') {
+            event.preventDefault();
+            alert('tags required!');
         }
     });
 
     // enable tagsmanager on the _authors input
     $('#_authors').tagsManager({
         hiddenTagListName : 'authors',
-        hiddenTagListId: 'authors',
+        hiddenTagListId: 'authors'
     });
+
+    // enable tagsmanager on the _tags input
+    $('#_tags').tagsManager({
+        hiddenTagListName : 'tags',
+        hiddenTagListId: 'tags'
+    });
+
 {% endblock onload %}
 
 {% block pagefooter %}

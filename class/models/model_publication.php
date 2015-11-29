@@ -33,14 +33,25 @@
         }
 
 /**
- * Return the ID of the author
+ * Return the comma separated list of authors
+ *
+ * @return object
+ */
+
+public function authors()
+{
+    return $this->bean->authors;
+}
+
+/**
+ * Return the comma separated list of tags
  *
  *@return object
  */
 
-        public function authors()
+        public function tags()
         {
-            return $this->bean->authors;
+            return $this->bean->tags;
         }
 
 /**

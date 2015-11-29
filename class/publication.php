@@ -63,6 +63,7 @@
                ($licence = $context->postpar('licence', '')) != '' &&
                ($authors = $context->postpar('authors', '')) != '' &&
                ($type = $context->postpar('type', '')) != '' &&
+               ($tags = $context->postpar('tags', '')) != '' &&
                ($data = $context->postpar('data', '')) != ''
              )
             {
@@ -71,6 +72,7 @@
                 $u->description = $description;
                 $u->licence = $licence;
                 $u->authors = $authors;
+                $u->tags = $tags;
                 $u->isdocument = false;
                 $u->isapp = false;
                 $u->isdata = false;
