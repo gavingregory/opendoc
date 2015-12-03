@@ -35,6 +35,9 @@
         case 'create':
         return $this->handlecreate($context);
         break;
+        case 'type':
+        return $this->handletype($context, $action['parameter']);
+        break;
         default:
         throw new Exception('unhandled route.');
         break;
@@ -51,6 +54,19 @@
     {
         $context->local()->addval('publication', R::load('publication', intval($id)));
         return 'publication/view.twig';
+    }
+
+    public function handletype($context, $type)
+    {
+        if ($type == 'document' || $type == 'data' || $type == 'sourcecode' || 'app')
+        {
+            $context->local()->addval('publications', R::find('publication', 'is'.$type.'=1'));
+            return 'publication/index.twig';
+        }
+        else
+        {
+            throw new Exception('unhandled type.');
+        }
     }
 
     public function handlecreate($context)
@@ -192,24 +208,35 @@
             throw new Exception('getaction() function requires an array.');
         }
         $ret = Array();
-        if (is_numeric($rest[0]))
+        if (is_numeric($rest[0]))                //  /{0}/?
         {
-            if (isset($rest[1]))
+            if (isset($rest[1]))                 //  /{0}/{string}
             {
                 $ret['route'] = $rest[1];
                 $ret['parameter'] = $rest[0];
             }
-            else
+            else                                 //  /{0}
             {
                 $ret['route'] = 'view';
                 $ret['parameter'] = $rest[0];
             }
         }
-        elseif ($rest[0] == '')
+        elseif ($rest[0] == '')                  //  /
         {
             $ret['route'] = 'index';
         }
-        else
+        elseif ($rest[0] == 'type')              //  /type
+        {
+            if (!isset($rest[1]))                //  /type <-- error
+            {
+                throw new Exception('must provide a type');
+            } else                               //  /type/{type}
+            {
+                $ret['route'] = 'type';
+                $ret['parameter'] = $rest[1];
+            }
+        }
+        else                                     //  /{other}
         {
             $ret['route'] = $rest[0];
         }

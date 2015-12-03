@@ -12,15 +12,14 @@
             <ul class="nav navbar-nav">
                     <li{{page == 'home' ? ' class="active"'}}><a href="{{base}}/">Home</a></li>
                     <li{{page == 'about' ? ' class="active"'}}><a href="{{base}}/about">About</a></li>
-                    <li{{page == 'publicationtype' ? ' class="active"'}}><a href="{{base}}/publicationtype">Pub Types</a></li>
                     <li{{page == 'publication' ? ' class="active"'}}><a href="{{base}}/publication">All Pubs</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pubs<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Types<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{base}}/publication/documents">Documents</a></li>
-                            <li><a href="{{base}}/publication/data">Data</a></li>
-                            <li><a href="{{base}}/publication/source-code">Source Code</a></li>
-                            <li><a href="{{base}}/publication/apps">Apps</a></li>
+                            <li><a href="{{base}}/publication/type/document">Document</a></li>
+                            <li><a href="{{base}}/publication/type/data">Data</a></li>
+                            <li><a href="{{base}}/publication/type/sourcecode">Source Code</a></li>
+                            <li><a href="{{base}}/publication/type/app">App</a></li>
                         </ul>
                     </li>
 
