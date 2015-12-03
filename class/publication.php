@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A class that contains code for the Publication class
  *
@@ -6,8 +7,10 @@
  * @copyright 2015 Newcastle University
  *
  */
+
   class Publication extends Siteaction
   {
+
 /**
  * Handle the profile route. This function calls getaction() to extract the
  * 'route' and 'parameter' from the url. It then calls the correct
@@ -17,6 +20,7 @@
  *
  * @return string	A template name
  */
+
         public function handle($context)
         {
             $action = $this->getaction($context->rest());
@@ -104,16 +108,17 @@
  */
         public function handlecreate($context)
         {
-
+            $site = new SiteInfo();
             if ($_SERVER['REQUEST_METHOD']  == 'POST')
             { //POST
-                if ( ($name = $context->postpar('name', '')) != '' &&
-                   ($description = $context->postpar('description', '')) != '' &&
-                   ($licence = $context->postpar('licence', '')) != '' &&
-                   ($authors = $context->postpar('authors', '')) != '' &&
-                   ($type = $context->postpar('type', '')) != '' &&
-                   ($tags = $context->postpar('tags', '')) != '' &&
-                   ($data = $context->postpar('data', '')) != ''
+                if (
+                   $site->test_form_input(($name = $context->postpar('name', ''))) != '' &&
+                   $site->test_form_input(($description = $context->postpar('description', ''))) != '' &&
+                   $site->test_form_input(($licence = $context->postpar('licence', ''))) != '' &&
+                   $site->test_form_input(($authors = $context->postpar('authors', ''))) != '' &&
+                   $site->test_form_input(($type = $context->postpar('type', ''))) != '' &&
+                   $site->test_form_input(($tags = $context->postpar('tags', ''))) != '' &&
+                   $site->test_form_input(($data = $context->postpar('data', ''))) != ''
                  )
                 { // validation successful
                     $u = R::dispense('publication');
@@ -198,12 +203,14 @@
         {
             if ($_SERVER['REQUEST_METHOD'] == 'POST')
             {
-                if ( ($name = $context->postpar('name', '')) != '' &&
-                   ($description = $context->postpar('description', '')) != '' &&
-                   ($licence = $context->postpar('licence', '')) != '' &&
-                   ($authors = $context->postpar('authors', '')) != '' &&
-                   ($type = $context->postpar('type', '')) != '' &&
-                   ($data = $context->postpar('data', '')) != ''
+                $site = new SiteInfo();
+                if (
+                   $site->test_form_input(($name = $context->postpar('name', ''))) != '' &&
+                   $site->test_form_input(($description = $context->postpar('description', ''))) != '' &&
+                   $site->test_form_input(($licence = $context->postpar('licence', ''))) != '' &&
+                   $site->test_form_input(($authors = $context->postpar('authors', ''))) != '' &&
+                   $site->test_form_input(($type = $context->postpar('type', ''))) != '' &&
+                   $site->test_form_input(($data = $context->postpar('data', ''))) != ''
                  )
                 {
                     $u = R::load('publication', intval($id));
@@ -233,7 +240,7 @@
                     }
 
                     R::store($u);
-                    $this ->redirect('/publication');
+                    $this ->redirect('/publication/'.$u->id);
                 }
                 else
                 {
