@@ -9,6 +9,15 @@
  */
     class SiteInfo
     {
+
+/**
+ * Global static variables for file uploads
+ * uploads/ permissions: sudo chmod 777 -R .
+ */
+        public static $uploadsdir = "uploads/";
+        public static $uploadslimit = 10485760; //10MB
+        public static $uploadsfiletypes = array('zip', 'docx', 'doc', 'dat', 'txt', 'tar.gz', 'pdf', 'png', 'jpg', 'jpeg');
+
 /**
  * Get all the user beans
  *

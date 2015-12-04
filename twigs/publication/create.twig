@@ -24,7 +24,7 @@
         </div>
         <div class="col-md-10">
             <h2>Add a new Publication</h2>
-            <form action="#" method="post">
+            <form action="#" method="post" enctype="multipart/form-data">
                 {{ f.text({label: 'Name', name: 'name', ph: 'Please enter a publication title/name', required: 1 }) }}
                 {{ f.text({label: 'Description', name: 'description', ph: 'Please enter a description', required: 1 }) }}
                 {{ f.text({label: 'Licence', name: 'licence', ph: 'Please enter licence information', required: 1 }) }}
@@ -52,6 +52,11 @@
                     </label>
                 </div>
                 {{ f.text({label: 'Data', name: 'data', ph: 'Please enter the data', required: 1 })}}
+                <div class="form-group">
+                    <label for="file">File</label>
+                    <input class="form-control" type="file" name="file" id="file">
+                </div>
+
                 <button type="submit" id="submit" class="btn btn-primary btn-lg">Create</button>
 
             </form>
