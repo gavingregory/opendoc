@@ -119,7 +119,8 @@
                    $util->sanitise(($authors = $context->mustpostpar('authors', ''))) != '' &&
                    $util->sanitise(($type = $context->mustpostpar('type', ''))) != '' &&
                    $util->sanitise(($tags = $context->mustpostpar('tags', ''))) != '' &&
-                   $util->sanitise(($data = $context->mustpostpar('data', ''))) != ''
+                   $util->
+                   $util->sanitise(($data = $context->postpar('data', ''))) != ''
                  )
                 { // initial validation successful
                     $errors = array();
@@ -211,6 +212,10 @@
             $bean = R::load('publication', intval($id));
             if ($_SERVER['REQUEST_METHOD']  == 'POST')
             {
+                if ($bean->isfile)
+                {
+                    FileHandler::delete($bean->data);
+                }
                 R::trash($bean);
                 $this->redirect('/publication');
             }

@@ -122,7 +122,16 @@ public function authors()
             return $this->bean->data;
         }
 
+/**
+ * Returns a flag whether the data is a file or not
+ *
+ * @return object
+ */
 
+        public function isfile()
+        {
+            return $this->bean->isfile;
+        }
 
     }
 ?>

@@ -97,7 +97,7 @@
 
         public static function deletefile($filename)
         {
-
+            unlink(FileHandler::$uploadsdir.$filename);
         }
 
     }
