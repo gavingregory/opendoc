@@ -122,9 +122,10 @@
                    $util->sanitise(($data = $context->mustpostpar('data', ''))) != ''
                  )
                 { // initial validation successful
-
+                    $errors = array();
                     // check file for errors
-                    $errors = FileHandler::checkfile($_FILES['file']);
+                    array_merge($errors, FileHandler::checkfile($_FILES['file']));
+
                     if (!empty($errors))
                     {
                         $context->local()->addval('errors', $errors);
@@ -160,14 +161,25 @@
                     break;
                     }
 
-                    R::store($u);
+                    R::store($u); // store to generate an id for filename
 
                     // store file
-                    FileHandler::uploadfile($_FILES['file'], $u->id());
+                    $filename = FileHandler::uploadfile($_FILES['file'], $u->id());
+                    echo $filename;
+                    if ($filename === 0)
+                    { // error
+                        array_push($errors, 'Error saving file.');
+                        R::trash($u);
+                        $context->local()->addval('errors', $errors);
+                        return 'publication/create.twig';
+                    }
+                    else
+                    { // success
+                        $u->data = $filename;
+                        R::store($u);
 
-                    // TODO: perhaps delete the bean at this stage?
-
-                    $this ->redirect('/publication');
+                        $this ->redirect('/publication');
+                    }
                 }
                 else
                 { // validation unsuccessful

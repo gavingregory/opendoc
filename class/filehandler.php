@@ -82,14 +82,22 @@
             // You should name it uniquely.
             // DO NOT USE $file['name'] WITHOUT ANY VALIDATION !!
             // On this example, obtain safe unique name from its binary data.
-            if (!(move_uploaded_file($file['tmp_name'], FileHandler::$uploadsdir.'/'.$id.'_'.$file['name'] )))
-            {
-                return 'success';
+            $filename = FileHandler::$uploadsdir.$id.'_'.$file['name'];
+            $status = move_uploaded_file($file['tmp_name'], $filename );
+
+            if ($status == 1)
+            { // success
+                return $filename;
             }
             else
-            {
-                return 'failure';
+            { // failure
+                return 0;
             }
+        }
+
+        public static function deletefile($filename)
+        {
+
         }
 
     }
