@@ -11,6 +11,18 @@
  */
     class Model_Publication extends RedBean_SimpleModel
     {
+
+/**
+ * Return id object
+ *
+ * @return object
+ */
+        public function id()
+        {
+            return $this->bean->id;
+        }
+
+
 /**
  * Return name object
  *
@@ -109,6 +121,8 @@ public function authors()
         {
             return $this->bean->data;
         }
+
+
 
     }
 ?>

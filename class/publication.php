@@ -109,59 +109,29 @@
         public function handlecreate($context)
         {
             $context->mustbeuser(); // MUST be a user! eh!
-            $site = new SiteInfo();
-            $errors = array();
+            $util = new Utilities();
             if ($_SERVER['REQUEST_METHOD']  == 'POST')
             { //POST
                 if (
-                   $site->test_form_input(($name = $context->mustpostpar('name', ''))) != '' &&
-                   $site->test_form_input(($description = $context->mustpostpar('description', ''))) != '' &&
-                   $site->test_form_input(($licence = $context->mustpostpar('licence', ''))) != '' &&
-                   $site->test_form_input(($authors = $context->mustpostpar('authors', ''))) != '' &&
-                   $site->test_form_input(($type = $context->mustpostpar('type', ''))) != '' &&
-                   $site->test_form_input(($tags = $context->mustpostpar('tags', ''))) != '' &&
-                   $site->test_form_input(($data = $context->mustpostpar('data', ''))) != ''
+                   $util->sanitise(($name = $context->mustpostpar('name', ''))) != '' &&
+                   $util->sanitise(($description = $context->mustpostpar('description', ''))) != '' &&
+                   $util->sanitise(($licence = $context->mustpostpar('licence', ''))) != '' &&
+                   $util->sanitise(($authors = $context->mustpostpar('authors', ''))) != '' &&
+                   $util->sanitise(($type = $context->mustpostpar('type', ''))) != '' &&
+                   $util->sanitise(($tags = $context->mustpostpar('tags', ''))) != '' &&
+                   $util->sanitise(($data = $context->mustpostpar('data', ''))) != ''
                  )
                 { // initial validation successful
 
-                    // handle file upload
-                    if (empty($_FILES))
-                    {
-                        throw new Exception('empty file');
-                    }
-
-                    $targetfile = SiteInfo::$uploadsdir . basename($_FILES['file']['name']);
-                    $filetype = pathinfo($targetfile, PATHINFO_EXTENSION);
-
-                    // check if the file exists
-                    if (file_exists($targetfile))
-                    {
-                        array_push($errors, 'Target file exists.');
-                    }
-
-                    // check if the file is greater than the upload limit size
-                    if ($_FILES['file']['size'] > SiteInfo::$uploadslimit)
-                    {
-                        array_push($errors, 'File size is too large. The maximum is '.SiteInfo::$uploadslimit.'kb');
-                    }
-
-                    // check if the filetype is allowed
-                    $typematch = false;
-                    foreach (SiteInfo::$uploadsfiletypes as $type)
-                    {
-                        if ($filetype == $type) $typematch = true;
-                    }
-                    if (!$typematch)
-                    {
-                        array_push($errors, 'File type is not supported.');
-                    }
-
+                    // check file for errors
+                    $errors = FileHandler::checkfile($_FILES['file']);
                     if (!empty($errors))
                     {
                         $context->local()->addval('errors', $errors);
                         return 'publication/create.twig';
                     }
 
+                    // create and save bean
                     $u = R::dispense('publication');
                     $u->name = $name;
                     $u->description = $description;
@@ -193,10 +163,8 @@
                     R::store($u);
 
                     // store file
-                    if (!move_uploaded_file($_FILES['file']['tmp_name'], $targetfile))
-                    {
-                        throw new Exception('File upload error.');
-                    }
+                    FileHandler::uploadfile($_FILES['file'], $u->id());
+
                     // TODO: perhaps delete the bean at this stage?
 
                     $this ->redirect('/publication');
@@ -257,14 +225,14 @@
             //TODO: must be owner
             if ($_SERVER['REQUEST_METHOD'] == 'POST')
             {
-                $site = new SiteInfo();
+                $util = new Utilities();
                 if (
-                   $site->test_form_input(($name = $context->postpar('name', ''))) != '' &&
-                   $site->test_form_input(($description = $context->postpar('description', ''))) != '' &&
-                   $site->test_form_input(($licence = $context->postpar('licence', ''))) != '' &&
-                   $site->test_form_input(($authors = $context->postpar('authors', ''))) != '' &&
-                   $site->test_form_input(($type = $context->postpar('type', ''))) != '' &&
-                   $site->test_form_input(($data = $context->postpar('data', ''))) != ''
+                   $util->sanitise(($name = $context->postpar('name', ''))) != '' &&
+                   $util->sanitise(($description = $context->postpar('description', ''))) != '' &&
+                   $util->sanitise(($licence = $context->postpar('licence', ''))) != '' &&
+                   $util->sanitise(($authors = $context->postpar('authors', ''))) != '' &&
+                   $util->sanitise(($type = $context->postpar('type', ''))) != '' &&
+                   $util->sanitise(($data = $context->postpar('data', ''))) != ''
                  )
                 {
                     $u = R::load('publication', intval($id));
