@@ -15,6 +15,7 @@
 
 {% block scripts %}
     <script src="{{assets}}/bower_components/tagmanager/tagmanager.js"></script>
+    <script src="{{assets}}/js/parsley.min.js"></script>
 {% endblock scripts %}
 
 {% block main %}
@@ -24,38 +25,43 @@
         </div>
         <div class="col-md-10">
             <h2>Add a new Publication</h2>
-            <form action="#" method="post" enctype="multipart/form-data">
+            <form data-parsley-validate action="#" method="post" enctype="multipart/form-data">
 
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input class="form-control" type="text" name="name" id="name" placeholder="Please enter a publication title/name." required value="{{model.name|default('')}}" />
+                    <input class="form-control" type="text" name="name" id="name" placeholder="Please enter a publication title/name."
+                           required="" value="{{model.name|default('')}}" data-parsley-trigger="change" data-parsley-minlength="3" />
                 </div>
 
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <input class="form-control" type="text" name="description" id="description" placeholder="Please enter a description." required value="{{model.description|default('')}}" />
+                    <input class="form-control" type="text" name="description" id="description" placeholder="Please enter a description."
+                           required="" value="{{model.description|default('')}}" data-parsley-trigger="change" data-parsley-minlength="3" />
                 </div>
 
                 <div class="form-group">
                     <label for="licence">Licence</label>
-                    <input class="form-control" type="text" name="licence" id="licence" placeholder="Please enter licence information." required value="{{model.licence|default('')}}" />
+                    <input class="form-control" type="text" name="licence" id="licence" placeholder="Please enter licence information."
+                           required="" value="{{model.licence|default('')}}" data-parsley-trigger="change" data-parsley-minlength="3" />
                 </div>
 
                 <div class="form-group">
                     <label for="authors">Authors</label>
-                    <input class="form-control" type="text" name="_authors" id="_authors" placeholder="Please add authors. Press enter to to add each author." value="{{model.authors|default('')}}" />
+                    <input class="form-control" type="text" name="_authors" id="_authors" placeholder="Please add authors. Press enter to to add each author."
+                           value="{{model.authors|default('')}}" />
                 </div>
 
                 <div class="form-group">
                     <label for="authors">Tags</label>
-                    <input class="form-control" type="text" name="_tags" id="_tags" placeholder="Please add tags that describe the content in some way. Press enter to to add each separate tag." value="{{model.tags|default('')}}" />
+                    <input class="form-control" type="text" name="_tags" id="_tags" placeholder="Please add tags that describe the content in some way. Press enter to to add each separate tag."
+                           value="{{model.tags|default('')}}" />
                 </div>
 
                 <div class="form-group">
                     <label for="type">Type</label><br />
                     <div class="btn-group">
                         <label class="btn btn-default">
-                            <input {{ model.isdocument ? 'checked' }} type="radio" id="radio-document" name="type" value="isdocument" />&nbsp;<i class="fa fa-file-word-o"></i>&nbsp;document
+                            <input {{ model.isdocument ? 'checked' }} type="radio" id="radio-document" name="type" value="isdocument" required="" />&nbsp;<i class="fa fa-file-word-o"></i>&nbsp;document
                         </label>
                         <label class="btn btn-default">
                             <input {{ model.isapp ? 'checked' }} type="radio" id="radio-app" name="type" value="isapp" />&nbsp;<i class="fa fa-android"></i>&nbsp;application
@@ -73,7 +79,7 @@
                     <label for="type">File</label><br />
                     <div class="btn-group">
                         <label class="btn btn-default">
-                            <input {{ model.isfile ? 'selected' }} type="radio" id="radio-isfiletrue" name="isfile" value="true" />&nbsp;<i class="fa fa-check"></i>&nbsp;It's a file upload
+                            <input {{ model.isfile ? 'selected' }} type="radio" id="radio-isfiletrue" name="isfile" value="true" required="" />&nbsp;<i class="fa fa-check"></i>&nbsp;It's a file upload
                         </label>
                         <label class="btn btn-default">
                             <input {{ model.isfile ? '':'selected' }} type="radio" id="radio-isfilefalse" name="isfile" value="false" />&nbsp;<i class="fa fa-close"></i>&nbsp;It's raw data!
