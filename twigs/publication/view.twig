@@ -39,6 +39,14 @@
                         <span class="label label-default">{{t}}</span>
                     {% endfor %}
                 </dd>
+                <dt>data</dt>
+                <dd>
+                    {% if (publication.isfile) %}
+                    <a href="/{{publication.data}}">{{publication.data}}</a>
+                    {% else %}
+                    <code>{{publication.data}}</code>
+                    {% endif %}
+                </dd>
             </dl>
         </div>
     </section>
