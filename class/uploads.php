@@ -12,7 +12,12 @@
     {
         public function handle($context)
         {
-            $context->sendfile('uploads/'.$context->rest()[0], $context->rest()[0]);
+            $path = 'uploads/'.$context->rest()[0];
+            if (file_exists($path)) {
+                $context->sendfile($path, $context->rest()[0]);
+            } else {
+                return 'filenotfound.twig';
+            }
         }
     }
 
