@@ -1,7 +1,5 @@
 <?php
 
-    //include 'class/validationexception.php';
-
 /**
  * A class that contains code for the Publication class
  *
