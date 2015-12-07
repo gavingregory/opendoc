@@ -41,7 +41,6 @@ class ValidationException extends Exception
  * @return array	$errors	The error array (defaults to empty array)
  *
  */
-
     public function GetErrors()
     {
         return $this->errors;
