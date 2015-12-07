@@ -9,7 +9,7 @@
 	const DB	= 'csc3123';
 	const DBUSER	= 'csc3123';
 	const DBPW	= 'csc3123';
-	const SITENAME	= 'csc3123';
+	const SITENAME	= 'open docs';
 	const SITEURL	= 'http://example.com/';
 	const SITENOREPLY	= 'g.i.gregory@ncl.ac.uk';
 	const SYSADMIN	= 'g.i.gregory@ncl.ac.uk';
