@@ -19,8 +19,6 @@
 
         public static function checkfile($file)
         {
-            $errors = array();
-
             try {
                 $targetfile = FileHandler::$uploadsdir . basename($file['name']);
                 $filetype = pathinfo($targetfile, PATHINFO_EXTENSION);
@@ -29,28 +27,13 @@
                 // If this request falls under any of them, treat it invalid.
                 if (!isset($file['error']) || is_array($file['error']))
                 {
-                    array_push($errors, 'Invalid parameters');
-                    return $errors; // do not continue, we have no correct file
-                }
-
-                // Check $file['error'] value.
-                switch ($file['error'])
-                {
-                    case UPLOAD_ERR_OK:
-                        break;
-                    case UPLOAD_ERR_NO_FILE:
-                        array_push($errors, 'No file sent.');
-                    case UPLOAD_ERR_INI_SIZE:
-                    case UPLOAD_ERR_FORM_SIZE:
-                        array_push($errors, 'Exceeded file size limit.');
-                    default:
-                        array_push($errors, 'Unknown errors.');
+                    return 'Invalid parameters'; // do not continue, we have no correct file
                 }
 
                 // You should also check filesize here.
                 if ($file['size'] > FileHandler::$uploadslimit)
                 {
-                    array_push($errors, 'Exceeded file size limit.');
+                    return 'Exceeded file size limit.';
                 }
 
                 // check if the filetype is allowed
@@ -61,27 +44,24 @@
                 }
                 if (!$typematch)
                 {
-                    array_push($errors, 'File type is not supported.');
+                    return 'File type is not supported.';
                 }
 
                 // check if the file exists
                 if (file_exists($targetfile))
-                {
-                    array_push($errors, 'Target file exists.');
-                    return $errors; // return here so we don't try and save file
+                { // return here so we don't try and save file, although this should never happen
+                    return 'Target file exists';
                 }
-                return $errors;
+                return 0;
             } catch (RuntimeException $e)
             {
-                array_push($errors, 'There has been a runtime exception.');
+                throw $e;
             }
         }
 
         public static function uploadfile($file, $id)
         {
-            // You should name it uniquely.
-            // DO NOT USE $file['name'] WITHOUT ANY VALIDATION !!
-            // On this example, obtain safe unique name from its binary data.
+            // Create a unique filename for this file
             $filename = FileHandler::$uploadsdir.$id.'_'.$file['name'];
             $status = move_uploaded_file($file['tmp_name'], $filename );
 

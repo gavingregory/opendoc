@@ -1,5 +1,7 @@
 <?php
 
+    //include 'class/validationexception.php';
+
 /**
  * A class that contains code for the Publication class
  *
@@ -112,29 +114,23 @@
             $util = new Utilities();
             if ($_SERVER['REQUEST_METHOD']  == 'POST')
             { //POST
-                if (
-                   $util->sanitise(($name = $context->mustpostpar('name', ''))) != '' &&
-                   $util->sanitise(($description = $context->mustpostpar('description', ''))) != '' &&
-                   $util->sanitise(($licence = $context->mustpostpar('licence', ''))) != '' &&
-                   $util->sanitise(($authors = $context->mustpostpar('authors', ''))) != '' &&
-                   $util->sanitise(($type = $context->mustpostpar('type', ''))) != '' &&
-                   $util->sanitise(($tags = $context->mustpostpar('tags', ''))) != '' &&
-                   $util->
-                   $util->sanitise(($data = $context->postpar('data', ''))) != ''
-                 )
-                { // initial validation successful
-                    $errors = array();
-                    // check file for errors
-                    array_merge($errors, FileHandler::checkfile($_FILES['file']));
+                try
+                {
+                    // sanitise parameters
+                    $name        = $util->sanitise($context->postpar('name', ''));
+                    $description = $util->sanitise($context->postpar('description', ''));
+                    $licence     = $util->sanitise($context->postpar('licence', ''));
+                    $authors     = $util->sanitise($context->postpar('authors', ''));
+                    $type        = $util->sanitise($context->postpar('type', ''));
+                    $tags        = $util->sanitise($context->postpar('tags', ''));
+                    $isfile      = $context->postpar('isfile', ''); // don't need to sanitise
+                    $data        = $util->sanitise($context->postpar('data', ''));
 
-                    if (!empty($errors))
-                    {
-                        $context->local()->addval('errors', $errors);
-                        return 'publication/create.twig';
-                    }
-
-                    // create and save bean
+                    // dispense a new bean
                     $u = R::dispense('publication');
+
+                    // assign bean parameters
+                    // NOTE: validation is performed by the model
                     $u->name = $name;
                     $u->description = $description;
                     $u->licence = $licence;
@@ -145,47 +141,54 @@
                     $u->isdata = false;
                     $u->issourcecode = false;
                     $u->data = $data;
+                    if ($isfile == 'true') $u->isfile = 1;
+                    else $u->isfile = 0;
 
                     switch ($type)
                     {
                     case 'isdocument':
-                    $u->isdocument = true;
+                        $u->isdocument = true;
                     break;
                     case 'isapp':
-                    $u->isapp = true;
+                        $u->isapp = true;
                     break;
                     case 'isdata':
-                    $u->isdata = true;
+                        $u->isdata = true;
                     break;
                     case 'issourcecode':
-                    $u->issourcecode = true;
+                        $u->issourcecode = true;
                     break;
                     }
 
-                    R::store($u); // store to generate an id for filename
+                    if ($u->isfile == 1)
+                    { // check file!
+                        // check file for file related errors
+                        $error = FileHandler::checkfile($_FILES['file']);
 
-                    // store file
-                    $filename = FileHandler::uploadfile($_FILES['file'], $u->id());
-                    echo $filename;
-                    if ($filename === 0)
-                    { // error
-                        array_push($errors, 'Error saving file.');
-                        R::trash($u);
-                        $context->local()->addval('errors', $errors);
-                        return 'publication/create.twig';
-                    }
-                    else
-                    { // success
+                        if ($error != 0)
+                        { // instantly return if we have file errors
+                            $context->local()->message('errmessage', $error);
+                            $context->local()->addval('model', $u);
+                            return 'publication/create.twig';
+                        }
+                        $filename = FileHandler::uploadfile($_FILES['file'], $u->id());
                         $u->data = $filename;
-                        R::store($u);
-
-                        $this ->redirect('/publication');
                     }
+                    R::store($u); // store
+                    $this ->redirect('/publication');
                 }
-                else
-                { // validation unsuccessful
-                    array_push($errors, 'You have not posted all of the required values.');
-                    $context->local()->addval('errors', $errors);
+                catch (Exception $e)
+                {
+                    $valerrors = $e->GetErrors();
+                    foreach ($valerrors as $key => $t)
+                    {
+                        foreach ($t as $m)
+                        {
+                            //TODO: should probably assign these to their correct categories
+                            $context->local()->message('errmessage', $key." ".$m);
+                        }
+                    }
+                    $context->local()->addval('model', $u);
                     return 'publication/create.twig';
                 }
             }

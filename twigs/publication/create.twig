@@ -25,46 +25,92 @@
         <div class="col-md-10">
             <h2>Add a new Publication</h2>
             <form action="#" method="post" enctype="multipart/form-data">
-                {{ f.text({label: 'Name', name: 'name', ph: 'Please enter a publication title/name', required: 1 }) }}
-                {{ f.text({label: 'Description', name: 'description', ph: 'Please enter a description', required: 1 }) }}
-                {{ f.text({label: 'Licence', name: 'licence', ph: 'Please enter licence information', required: 1 }) }}
+
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input class="form-control" type="text" name="name" id="name" placeholder="Please enter a publication title/name." required value="{{model.name|default('')}}" />
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input class="form-control" type="text" name="description" id="description" placeholder="Please enter a description." required value="{{model.description|default('')}}" />
+                </div>
+
+                <div class="form-group">
+                    <label for="licence">Licence</label>
+                    <input class="form-control" type="text" name="licence" id="licence" placeholder="Please enter licence information." required value="{{model.licence|default('')}}" />
+                </div>
+
                 <div class="form-group">
                     <label for="authors">Authors</label>
-                    <input class="form-control" type="text" name="_authors" id="_authors" placeholder="Please add authors. Press enter to to add each author." />
+                    <input class="form-control" type="text" name="_authors" id="_authors" placeholder="Please add authors. Press enter to to add each author." value="{{model.authors|default('')}}" />
                 </div>
+
                 <div class="form-group">
                     <label for="authors">Tags</label>
-                    <input class="form-control" type="text" name="_tags" id="_tags" placeholder="Please add tags that describe the content in some way. Press enter to to add each separate tag." />
+                    <input class="form-control" type="text" name="_tags" id="_tags" placeholder="Please add tags that describe the content in some way. Press enter to to add each separate tag." value="{{model.tags|default('')}}" />
                 </div>
-                <label for="type">Type</label>
-                <div class="btn-group">
-                    <label class="btn btn-default">
-                        <input type="radio" id="radio-document" name="type" value="isdocument" />&nbsp;<i class="fa fa-file-word-o"></i>&nbsp;document
-                    </label>
-                    <label class="btn btn-default">
-                        <input type="radio" id="radio-app" name="type" value="isapp" />&nbsp;<i class="fa fa-android"></i>&nbsp;application
-                    </label>
-                    <label class="btn btn-default">
-                        <input type="radio" id="radio-src" name="type" value="isdata" />&nbsp;<i class="fa fa-file"></i>&nbsp;raw data
-                    </label>
-                    <label class="btn btn-default">
-                        <input type="radio" id="radio-data" name="type" value="issourcecode" />&nbsp;<i class="fa fa-file-code-o"></i>&nbsp;source code
-                    </label>
-                </div>
-                {{ f.text({label: 'Data', name: 'data', ph: 'Please enter the data', required: 1 })}}
+
                 <div class="form-group">
+                    <label for="type">Type</label><br />
+                    <div class="btn-group">
+                        <label class="btn btn-default">
+                            <input {{ model.isdocument ? 'checked' }} type="radio" id="radio-document" name="type" value="isdocument" />&nbsp;<i class="fa fa-file-word-o"></i>&nbsp;document
+                        </label>
+                        <label class="btn btn-default">
+                            <input {{ model.isapp ? 'checked' }} type="radio" id="radio-app" name="type" value="isapp" />&nbsp;<i class="fa fa-android"></i>&nbsp;application
+                        </label>
+                        <label class="btn btn-default">
+                            <input {{ model.issourcecode ? 'checked' }} type="radio" id="radio-src" name="type" value="isdata" />&nbsp;<i class="fa fa-file"></i>&nbsp;raw data
+                        </label>
+                        <label class="btn btn-default">
+                            <input {{ model.isdata ? 'checked' }} type="radio" id="radio-data" name="type" value="issourcecode" />&nbsp;<i class="fa fa-file-code-o"></i>&nbsp;source code
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="type">File</label><br />
+                    <div class="btn-group">
+                        <label class="btn btn-default">
+                            <input {{ model.isfile ? 'selected' }} type="radio" id="radio-isfiletrue" name="isfile" value="true" />&nbsp;<i class="fa fa-check"></i>&nbsp;It's a file upload
+                        </label>
+                        <label class="btn btn-default">
+                            <input {{ model.isfile ? '':'selected' }} type="radio" id="radio-isfilefalse" name="isfile" value="false" />&nbsp;<i class="fa fa-close"></i>&nbsp;It's raw data!
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="data-group">
+                    <label for="data">Data</label>
+                    <textarea class="form-control" type="text" name="data" id="data" placeholder="Please enter the data." value="{{model.data|default('')}}" rows="6"></textarea>
+                </div>
+
+                <div class="form-group" id="file-group">
                     <label for="file">File</label>
                     <input class="form-control" type="file" name="file" id="file">
                 </div>
 
                 <button type="submit" id="submit" class="btn btn-primary btn-lg">Create</button>
-
             </form>
         </div>
     </section>
 {% endblock main %}
 
 {% block onload %}
+
+    $('#data-group').hide();
+    $('#file-group').hide();
+
+    $('input[name=isfile]').change(function () {
+        if ($(this).val() == 'true') {
+            $('#data-group').hide();
+            $('#file-group').show();
+        } else {
+            $('#data-group').show();
+            $('#file-group').hide();
+        }
+    });
 
     // validate the authors/tags on submit
     // this is required as we can't validate the hidden field that is created
@@ -83,13 +129,15 @@
     // enable tagsmanager on the _authors input
     $('#_authors').tagsManager({
         hiddenTagListName : 'authors',
-        hiddenTagListId: 'authors'
+        hiddenTagListId: 'authors',
+        prefilled: "{{model.authors}}"
     });
 
     // enable tagsmanager on the _tags input
     $('#_tags').tagsManager({
         hiddenTagListName : 'tags',
-        hiddenTagListId: 'tags'
+        hiddenTagListId: 'tags',
+        prefilled: "{{model.tags}}"
     });
 
 {% endblock onload %}

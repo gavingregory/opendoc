@@ -7,13 +7,5 @@
     <a href="/publication/create"><i class="fa fa-plus-square-o"></i>&nbsp;Create</a>
 </div>
 {% endif %}
-{% if (errors) %}
-<h3>Errors</h3>
-<div class="alert alert-warning">
-    <ul>
-    {% for e in errors %}
-        <li>{{e}}</li>
-    {% endfor %}
-    </ul>
-</div>
-{% endif %}
+<h3>Messages</h3>
+{% include 'message.twig' %}
