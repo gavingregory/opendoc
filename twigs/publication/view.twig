@@ -29,14 +29,14 @@
                 <dd>
                     {% set authors = publication.authors|split(',') %}
                     {% for a in authors %}
-                        <span class="label label-success">{{a}}</span>
+                        <a href="/search/?q={{a|url_encode}}"><span class="label label-success">{{a}}</span></a>
                     {% endfor %}
                 </dd>
                 <dt>meta-tag(s)</dt>
                 <dd>
                     {% set tags = publication.tags|split(',') %}
                     {% for t in tags %}
-                        <span class="label label-default">{{t}}</span>
+                        <a href="/search/?q={{t|url_encode}}"><span class="label label-default">{{t}}</span></a>
                     {% endfor %}
                 </dd>
                 <dt>data</dt>
